@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     public int speed;
     public Animator anim;
     bool touchingPlatform;
+    bool IsGrounded;
 
     // Start is called before the first frame update
     void Start()
@@ -26,7 +27,7 @@ public class Player : MonoBehaviour
         {
             print("player pressed up");
             // transform.position = new Vector2(transform.position.x, transform.position.y + (speed * Time.deltaTime));
-            player.velocity = new Vector2(0, 2);
+       //   player.velocity = new Vector2(0, 2);
         }
         // player moves down
         if (Input.GetKey("down"))
@@ -40,7 +41,7 @@ public class Player : MonoBehaviour
         {
             print("player pressed left");
             // transform.position = new Vector2(transform.position.x - (speed * Time.deltaTime), transform.position.y );
-            player.velocity = new Vector2(-2, 0);
+            player.velocity = new Vector2(-2, 0); 
         }
         // player moves right
         if (Input.GetKey("right"))
@@ -53,12 +54,17 @@ public class Player : MonoBehaviour
         {
             print("player pressed spacebar");
             player.velocity = new Vector2(0, 15);
+            IsGrounded = false;
         }
         else
         {
-            anim.SetBool("run", player.velocity.magnitude != 0);
+            // defines when the player runs and jumps
+            anim.SetBool("run", player.velocity.magnitude > 0);
+            anim.SetBool("jump", player.velocity.magnitude > 0);
         }
-
+        {
+            IsGrounded = true;
+        }
     }
     // tells the player to stick to a platform
     void OnCollisionStay2D(Collision2D collision)
@@ -66,6 +72,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "Platform")
         {
             touchingPlatform = true;
+            IsGrounded = true;
         }
     }
     // mentions when the player is NOT on a platform
@@ -74,6 +81,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "Platform")
         {
             touchingPlatform = false;
+            IsGrounded = false;
         }
     }
 
