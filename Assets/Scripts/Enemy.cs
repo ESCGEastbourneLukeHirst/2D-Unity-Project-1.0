@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
         Vector2 direction = Player.transform.position - transform.position;
 
         transform.position = Vector2.MoveTowards(this.transform.position, Player.transform.position, speed * Time.deltaTime);
-        if(distance < 4)
+        if(distance < 10)
         {
             transform.position = Vector2.MoveTowards(this.transform.position, Player.transform.position, speed * Time.deltaTime);
         }
