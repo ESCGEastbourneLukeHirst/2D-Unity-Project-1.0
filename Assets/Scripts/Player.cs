@@ -42,11 +42,6 @@ public class Player : MonoBehaviour
             print("player pressed left");
             // transform.position = new Vector2(transform.position.x - (speed * Time.deltaTime), transform.position.y );
             player.velocity = new Vector2(-2, 0);
-            anim.SetBool("run", true);
-        }
-        else
-        {
-            anim.SetBool("run", false);
         }
         // player moves right
         if (Input.GetKey("right"))
