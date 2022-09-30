@@ -41,7 +41,12 @@ public class Player : MonoBehaviour
         {
             print("player pressed left");
             // transform.position = new Vector2(transform.position.x - (speed * Time.deltaTime), transform.position.y );
-            player.velocity = new Vector2(-2, 0); 
+            player.velocity = new Vector2(-2, 0);
+            anim.SetBool("run", true);
+        }
+        else
+        {
+            anim.SetBool("run", false);
         }
         // player moves right
         if (Input.GetKey("right"))
@@ -49,21 +54,31 @@ public class Player : MonoBehaviour
             print("player pressed right");
             // transform.position = new Vector2(transform.position.x + (speed * Time.deltaTime), transform.position.y);
             player.velocity = new Vector2(2, 0);
+            anim.SetBool("run", true);
+        }
+        else
+        {
+            anim.SetBool("run", false);
         }
         if (Input.GetKeyDown("space") && (touchingPlatform == true))
         {
             print("player pressed spacebar");
             player.velocity = new Vector2(0, 15);
-            IsGrounded = false;
+            anim.SetBool("jump", true);
         }
         else
         {
-            // defines when the player runs and jumps
-            anim.SetBool("run", player.velocity.magnitude > 0);
-            anim.SetBool("jump", player.velocity.magnitude > 0);
+            anim.SetBool("jump", false);
         }
+        if (Input.GetKey("q"))
         {
-            IsGrounded = true;
+            print("player is attacking!");
+            anim.SetBool("attack", true);
+            
+        }
+        else
+        {
+            anim.SetBool("attack", false);
         }
     }
     // tells the player to stick to a platform
@@ -72,7 +87,6 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "Platform")
         {
             touchingPlatform = true;
-            IsGrounded = true;
         }
     }
     // mentions when the player is NOT on a platform
@@ -81,7 +95,6 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "Platform")
         {
             touchingPlatform = false;
-            IsGrounded = false;
         }
     }
 
