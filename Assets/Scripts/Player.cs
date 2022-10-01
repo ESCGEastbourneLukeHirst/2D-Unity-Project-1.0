@@ -49,21 +49,16 @@ public class Player : MonoBehaviour
             print("player pressed right");
             // transform.position = new Vector2(transform.position.x + (speed * Time.deltaTime), transform.position.y);
             player.velocity = new Vector2(2, 0);
-            anim.SetBool("run", true);
-        }
-        else
-        {
-            anim.SetBool("run", false);
         }
         if (Input.GetKeyDown("space") && (touchingPlatform == true))
         {
             print("player pressed spacebar");
             player.velocity = new Vector2(0, 15);
-            anim.SetBool("jump", true);
+            anim.SetBool("jump", player.velocity.magnitude > 0);
         }
         else
         {
-            anim.SetBool("jump", false);
+            anim.SetBool("run", player.velocity.magnitude > 0);
         }
         if (Input.GetKey("q"))
         {
