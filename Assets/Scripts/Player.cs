@@ -8,8 +8,6 @@ public class Player : MonoBehaviour
     public int speed;
     public Animator anim;
     bool touchingPlatform;
-    bool IsGrounded;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -34,7 +32,7 @@ public class Player : MonoBehaviour
         {
             print("player pressed down");
             // transform.position = new Vector2(transform.position.x, transform.position.y - (speed* + Time.deltaTime));
-            player.velocity = new Vector2(0, -2);
+           // player.velocity = new Vector2(0, -2);
         }
         // player moves left
         if (Input.GetKey("left"))
@@ -50,7 +48,7 @@ public class Player : MonoBehaviour
             // transform.position = new Vector2(transform.position.x + (speed * Time.deltaTime), transform.position.y);
             player.velocity = new Vector2(2, 0);
         }
-        if (Input.GetKeyDown("space") && (touchingPlatform == true))
+        if (Input.GetKeyDown("space") && touchingPlatform == true)
         {
             print("player pressed spacebar");
             player.velocity = new Vector2(0, 15);
