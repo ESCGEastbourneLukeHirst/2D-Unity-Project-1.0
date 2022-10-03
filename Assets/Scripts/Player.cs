@@ -8,6 +8,14 @@ public class Player : MonoBehaviour
     public int speed;
     public Animator anim;
     bool touchingPlatform;
+
+    void Jump()
+    {
+        if (touchingPlatform == true)
+        {
+            anim.SetBool("jump", player.velocity.magnitude > 0);
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -52,12 +60,10 @@ public class Player : MonoBehaviour
         {
             print("player pressed spacebar");
             player.velocity = new Vector2(0, 10);
-            anim.SetBool("jump", true);
         }
         else
         {
             anim.SetBool("run", player.velocity.magnitude > 0);
-            anim.SetBool("jump", false);
         }
         if (Input.GetKey("q"))
         {
