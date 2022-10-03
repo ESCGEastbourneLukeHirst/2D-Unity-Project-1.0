@@ -5,17 +5,10 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     Rigidbody2D player;
-    public int speed;
+    [SerializeField] public float speed;
     public Animator anim;
     bool touchingPlatform;
 
-    void Jump()
-    {
-        if (touchingPlatform == true)
-        {
-            anim.SetBool("jump", player.velocity.magnitude > 0);
-        }
-    }
     // Start is called before the first frame update
     void Start()
     {
@@ -42,24 +35,20 @@ public class Player : MonoBehaviour
             // transform.position = new Vector2(transform.position.x, transform.position.y - (speed* + Time.deltaTime));
            // player.velocity = new Vector2(0, -2);
         }
-        // player moves left
-        if (Input.GetKey("left"))
+        // player moves left and right
         {
-            print("player pressed left");
-            // transform.position = new Vector2(transform.position.x - (speed * Time.deltaTime), transform.position.y );
-            player.velocity = new Vector2(-2, 0);
-        }
-        // player moves right
-        if (Input.GetKey("right"))
-        {
-            print("player pressed right");
-            // transform.position = new Vector2(transform.position.x + (speed * Time.deltaTime), transform.position.y);
-            player.velocity = new Vector2(2, 0);
+            float horizontalInput = Input.GetAxis("Horizontal");
+            player.velocity = new Vector2(horizontalInput * speed, player.velocity.y);
+        // flips the player left or right
+            if (horizontalInput > 0.01f)
+                transform.localScale = Vector3.one;
+           else if (horizontalInput < -0.01f)
+                transform.localScale = new Vector3(-1, 1, 1);
         }
         if (Input.GetKeyDown("space") && touchingPlatform == true)
         {
             print("player pressed spacebar");
-            player.velocity = new Vector2(0, 10);
+            player.velocity = new Vector2(player.velocity.x, speed);
         }
         else
         {

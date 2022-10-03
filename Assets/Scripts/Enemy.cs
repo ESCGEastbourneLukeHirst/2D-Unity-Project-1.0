@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    internal static bool collision;
     public GameObject Player;
     public float speed;
 
