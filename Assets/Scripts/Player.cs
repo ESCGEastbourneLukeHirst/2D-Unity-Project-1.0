@@ -51,12 +51,13 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown("space") && touchingPlatform == true)
         {
             print("player pressed spacebar");
-            player.velocity = new Vector2(0, 15);
-            anim.SetBool("jump", player.velocity.magnitude > 0);
+            player.velocity = new Vector2(0, 10);
+            anim.SetBool("jump", true);
         }
         else
         {
             anim.SetBool("run", player.velocity.magnitude > 0);
+            anim.SetBool("jump", false);
         }
         if (Input.GetKey("q"))
         {
