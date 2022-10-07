@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    internal static bool collision;
-    public GameObject Player;
-    public float speed;
-    private float distance;
+    public GameObject player;
+    public float x;
+    public float y;
+    public GameObject diamond;
+    public float minDistance;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,13 +19,23 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        distance = Vector2.Distance(transform.position, Player.transform.position);
-        Vector2 direction = Player.transform.position - transform.position;
-
-        transform.position = Vector2.MoveTowards(this.transform.position, Player.transform.position, speed * Time.deltaTime);
-        if(distance < 10)
+       x = player.transform.position.x;
+       y = player.transform.position.y;
+        int moveDirection = 1;
+        if (player.transform.position == new Vector3(x, y, 0))
         {
-            transform.position = Vector2.MoveTowards(this.transform.position, Player.transform.position, speed * Time.deltaTime);
+            // Instantiate the fireball at the position and rotation of the player
+            GameObject clone;
+            clone = Instantiate(diamond, transform.position, transform.rotation);
+
+            // get the rigidbody component
+            Rigidbody2D rb = clone.GetComponent<Rigidbody2D>();
+
+            // set the velocity
+            rb.velocity = new Vector3(15 * moveDirection, 0, 0);
+
+            //set the position close to the player
+            rb.transform.position = new Vector3(transform.position.x, transform.position.y + 2, transform.position.z + 1);
         }
     }
-}
+    }
