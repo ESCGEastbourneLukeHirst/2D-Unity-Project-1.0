@@ -42,16 +42,17 @@ public class Player : MonoBehaviour
         {
             if (Input.GetKey("right"))
             {
-                player.velocity = new Vector2(10, 0);
+                player.velocity = new Vector2(5, 0);
                 helper.FlipObject(false);
             }
             // flips the player left, and moves the player left
             if (Input.GetKey ("left"))
             {
-                player.velocity = new Vector2(-10, 0);
+                player.velocity = new Vector2(-5, 0);
                 helper.FlipObject(true);
             }
         }
+        // tells the player to jump, and apply the running animation when NOT Jumping.
         if (Input.GetKeyDown("space") && touchingPlatform)
         {
             print("player pressed spacebar");
@@ -61,6 +62,7 @@ public class Player : MonoBehaviour
         {
             anim.SetBool("run", player.velocity.magnitude != 0);
         }
+        // tells the player to perform the player attack animation
         if (Input.GetKey("q"))
         {
             print("player is attacking!");
