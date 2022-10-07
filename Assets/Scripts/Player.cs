@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     bool touchingPlatform;
     bool grounded;
     HelperScript helper;
+    public GameObject fireball;
 
     // Start is called before the first frame update
     void Start()
@@ -63,10 +64,22 @@ public class Player : MonoBehaviour
             anim.SetBool("run", player.velocity.magnitude != 0);
         }
         // tells the player to perform the player attack animation
+        int moveDirection = 1;
         if (Input.GetKey("q"))
         {
             print("player is attacking!");
             anim.SetBool("attack", true);
+            // Instantiate the fireball at the position and rotation of the player
+            GameObject clone;
+            clone = Instantiate(fireball, transform.position, transform.rotation);
+            // get the rigidbody component
+            Rigidbody2D rb = clone.GetComponent<Rigidbody2D>();
+
+            // set the velocity
+            rb.velocity = new Vector3(10 * moveDirection, 0, 0);
+
+            //set the position close to the player
+            rb.transform.position = new Vector3(transform.position.x, transform.position.y + 2, transform.position.z + 1);
             
         }
         else
