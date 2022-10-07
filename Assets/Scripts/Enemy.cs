@@ -7,7 +7,6 @@ public class Enemy : MonoBehaviour
     internal static bool collision;
     public GameObject Player;
     public float speed;
-
     private float distance;
     // Start is called before the first frame update
     void Start()
