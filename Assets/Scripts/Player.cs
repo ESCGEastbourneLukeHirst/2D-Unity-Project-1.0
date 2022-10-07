@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     [SerializeField] public float speed;
     public Animator anim;
     bool touchingPlatform;
+    private bool grounded;
 
     // Start is called before the first frame update
     void Start()
@@ -45,14 +46,13 @@ public class Player : MonoBehaviour
            else if (horizontalInput < -0.01f)
                 transform.localScale = new Vector3(-1, 1, 1);
         }
-        if (Input.GetKeyDown("space") && touchingPlatform == true)
+        if (Input.GetKeyDown("space") && touchingPlatform)
         {
             print("player pressed spacebar");
-            player.velocity = new Vector2(player.velocity.x, speed);
-        }
-        else
-        {
-            anim.SetBool("run", player.velocity.magnitude > 0);
+            Jump();
+            //Set animator parameters
+            anim.SetBool("run", )
+            anim.SetBool("jump", false);
         }
         if (Input.GetKey("q"))
         {
@@ -66,11 +66,12 @@ public class Player : MonoBehaviour
         }
     }
     // tells the player to stick to a platform
-    void OnCollisionStay2D(Collision2D collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Platform")
         {
             touchingPlatform = true;
+            grounded = true;
         }
     }
     // mentions when the player is NOT on a platform
@@ -79,7 +80,12 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "Platform")
         {
             touchingPlatform = false;
+            grounded = false;
         }
     }
-
+    private void Jump()
+    {
+        player.velocity = new Vector2(player.velocity.x, speed);
+        grounded = false;
+    }
 }
