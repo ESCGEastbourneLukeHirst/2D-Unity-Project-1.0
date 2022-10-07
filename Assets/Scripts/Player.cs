@@ -5,10 +5,11 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     Rigidbody2D player;
-    [SerializeField] public float speed;
+    public float speed;
     public Animator anim;
     bool touchingPlatform;
-    private bool grounded;
+    bool grounded;
+    HelperScript helper;
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +18,7 @@ public class Player : MonoBehaviour
         player = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         speed = 20;
+        helper = gameObject.AddComponent<HelperScript>();
     }
 
     // Update is called once per frame
@@ -36,23 +38,28 @@ public class Player : MonoBehaviour
             // transform.position = new Vector2(transform.position.x, transform.position.y - (speed* + Time.deltaTime));
            // player.velocity = new Vector2(0, -2);
         }
-        // player moves left and right
+        // flips the player right, and moves the player right
         {
-            float horizontalInput = Input.GetAxis("Horizontal");
-            player.velocity = new Vector2(horizontalInput * speed, player.velocity.y);
-        // flips the player left or right
-            if (horizontalInput > 0.01f)
-                transform.localScale = Vector3.one;
-           else if (horizontalInput < -0.01f)
-                transform.localScale = new Vector3(-1, 1, 1);
+            if (Input.GetKey("right"))
+            {
+                player.velocity = new Vector2(10, 0);
+                helper.FlipObject(false);
+            }
+            // flips the player left, and moves the player left
+            if (Input.GetKey ("left"))
+            {
+                player.velocity = new Vector2(-10, 0);
+                helper.FlipObject(true);
+            }
         }
         if (Input.GetKeyDown("space") && touchingPlatform)
         {
             print("player pressed spacebar");
-            Jump();
-            //Set animator parameters
-            anim.SetBool("run", )
-            anim.SetBool("jump", false);
+            player.velocity = new Vector2(0, 15);
+        }
+        else
+        {
+            anim.SetBool("run", player.velocity.magnitude != 0);
         }
         if (Input.GetKey("q"))
         {
@@ -82,10 +89,5 @@ public class Player : MonoBehaviour
             touchingPlatform = false;
             grounded = false;
         }
-    }
-    private void Jump()
-    {
-        player.velocity = new Vector2(player.velocity.x, speed);
-        grounded = false;
     }
 }
