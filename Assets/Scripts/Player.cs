@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     HelperScript helper;
     public GameObject fireball;
 
-    // Start is called before the first frame update
+ // Start is called before the first frame update
     void Start()
     {
         // grabs the references
@@ -25,6 +25,8 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        helper.DoRayCollisionCheck();
+
         // player moves up
         if (Input.GetKey("up"))
         {
@@ -40,29 +42,38 @@ public class Player : MonoBehaviour
            // player.velocity = new Vector2(0, -2);
         }
         // flips the player right, and moves the player right
+
+
+        if (Input.GetKey("right"))
         {
-            if (Input.GetKey("right"))
-            {
-                player.velocity = new Vector2(5, 0);
-                helper.FlipObject(false);
-            }
-            // flips the player left, and moves the player left
-            if (Input.GetKey ("left"))
-            {
-                player.velocity = new Vector2(-5, 0);
-                helper.FlipObject(true);
-            }
+            player.velocity = new Vector2(5, 0);
+            helper.FlipObject(false);
         }
-        // tells the player to jump, and apply the running animation when NOT Jumping.
-        if (Input.GetKeyDown("space") && touchingPlatform)
+        // flips the player left, and moves the player left
+        if (Input.GetKey ("left"))
         {
-            print("player pressed spacebar");
-            player.velocity = new Vector2(0, 15);
+            player.velocity = new Vector2(-5, 0);
+            helper.FlipObject(true);
+        }
+
+
+        
+        grounded = true;
+
+        // tells the player to jump, and apply the running animation when NOT Jumping.
+        if (Input.GetKeyDown("space") && grounded)
+        {
+            print("Player pressed spacebar");
             anim.SetBool("jump", true);
+            grounded = false;
+
+            player.velocity = new Vector3( player.velocity.x, 10, 0);
+
         }
         else
         {
-            anim.SetBool("run", player.velocity.magnitude != 0);
+            anim.SetBool("run", player.velocity.magnitude > 0);
+            grounded = true;
             anim.SetBool("jump", false);
         }
         // tells the player to perform the player attack animation
@@ -88,23 +99,24 @@ public class Player : MonoBehaviour
         {
             anim.SetBool("attack", false);
         }
+
     }
     // tells the player to stick to a platform
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Platform")
-        {
-            touchingPlatform = true;
-            grounded = true;
-        }
-    }
-    // mentions when the player is NOT on a platform
-     void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Platform")
-        {
-            touchingPlatform = false;
-            grounded = false;
-        }
-    }
+   //   void OnCollisionEnter2D(Collision2D collision) 
+        
+   //       if (collision.gameObject.tag == "Platform")
+            
+   //           touchingPlatform = true;
+   //           grounded = true;
+            
+        
+        // mentions when the player is NOT on a platform
+   //    void OnCollisionExit2D(Collision2D collision)
+        
+   //       if (collision.gameObject.tag == "Platform")
+            
+     //         touchingPlatform = false;
+       //       grounded = false;
+            
+        
 }
