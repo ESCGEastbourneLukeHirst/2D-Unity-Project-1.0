@@ -10,15 +10,22 @@ public class Enemy : MonoBehaviour
     public GameObject diamond;
     public float minDistance;
     private Rigidbody2D rb;
+    public float moveSpeed = 5f;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        rb = GetComponent<Rigidbody2D>();
     }
 
-        // Update is called once per frame
-        void Update()
+    void FixedUpdate()
+    {
+        rb.velocity = new Vector2(moveSpeed, rb.velocity.y);    
+    }
+
+
+    // Update is called once per frame
+    void Update()
         {
             x = player.transform.position.x;
             y = player.transform.position.y;
